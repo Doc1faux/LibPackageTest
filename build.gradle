@@ -41,7 +41,20 @@ dependencies {
 
 // Publish to Bintray
 // See https://medium.com/devnibbles/publishing-your-first-android-library-to-bintray-da08c8a76e1a
-// Usage : run ./gradlew clean build bintrayUpload in library folder
+// Usage
+// To distribute: in library folder, `run ./gradlew clean build bintrayUpload`
+// To include, add these lines to build.gradle:
+// If hosted in our own repo
+//  repositories {
+//      maven { url 'https://dl.bintray.com/com-sebastienvitard/com.sebastienvitard' }
+//  }
+//  dependencies {
+//      implementation 'com.sebastienvitard:libpackagetest:0.1'
+//  }
+// If hosted in jcenter repo (if requested and accepted)
+//  dependencies {
+//      implementation 'com.sebastienvitard:libpackagetest:0.1'
+//  }
 def libraryGroupId = 'com.sebastienvitard'
 def libraryArtifactId = 'libpackagetest'
 def libraryVersion = '0.1'
