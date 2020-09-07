@@ -1,4 +1,15 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+    }
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 30
@@ -26,4 +37,45 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.jakewharton:disklrucache:2.0.2'
+}
+
+// Publish to Bintray
+// See https://medium.com/devnibbles/publishing-your-first-android-library-to-bintray-da08c8a76e1a
+// Usage : run ./gradlew clean build bintrayUpload in library folder
+def libraryGroupId = 'com.sebastienvitard'
+def libraryArtifactId = 'libpackagetest'
+def libraryVersion = '0.1'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = libraryGroupId
+                artifactId = libraryArtifactId
+                version = libraryVersion
+            }
+        }
+    }
+}
+
+bintray {
+    user='user'
+    key='key'
+    publications = ['release']
+    publish = true
+    override = true
+    pkg {
+        repo = libraryGroupId
+        userOrg = 'com-sebastienvitard'
+        name = libraryArtifactId
+        desc = 'A test of lib packaging'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Doc1faux/LibPackageTest.git'
+        publicDownloadNumbers = true
+        version {
+            name = libraryVersion
+            released = new Date()
+        }
+    }
 }
